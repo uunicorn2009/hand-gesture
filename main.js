@@ -12,7 +12,7 @@ function take_snapshot(){
     });
 }
 console.log("ml5 version:",ml5.version);
-classifier=ml5.imageClassifier('https://teachablemachine.withgoogle.com/models/RefxL9rGx/modal.json',modelLoaded);
+classifier=ml5.imageClassifier('https://teachablemachine.withgoogle.com/models/-uyeeYk49/modal.json',modelLoaded);
 function modelLoaded(){
     console.log("Model Loaded ");
 }
@@ -25,4 +25,37 @@ function speak(){
     
     var utterThis= new SpeechSynthesisUtterance(speak_data_1);
     synth.speak(utterThis);
+}
+function check(){
+    img = document.getElementById("captured_image");
+    classifier.classify( img ,gotResult);
+}
+function gotResult(error,results){
+    if(error){
+        console.log(error);
+    }
+    else {
+        console.log(results);
+        document.getElementById("result_emotion_name").innerHTML=results[0].label;
+
+        prediction1=results[0].label;
+       
+        speak();
+        if (results[0].label=="VICTORY"){
+            document.getElementById("update_emoji").innerHTML= " &#9996;";
+        }
+        if (results[0].label=="GOOD"){
+            document.getElementById("update_emoji").innerHTML= "&#128076;";
+        }
+        if (results[0].label=="NICE"){
+            document.getElementById("update_emoji").innerHTML= "&#128077;";
+
+        }
+     
+
+        
+
+
+    }
+
 }
